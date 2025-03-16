@@ -11,8 +11,6 @@
                   "src": "/(.*)",
                   "dest": "index.js"
             }
-      ],
-      "env": {
-            "MONGODB_URI": "mongodb+srv://naveendoddi:zQTrjUrwyKXeIEZ2@swiggy.jbdpwef.mongodb.net/swiggy?retryWrites=true&w=majority&appName=swiggy"
-      }
+      ]
+      
 }
