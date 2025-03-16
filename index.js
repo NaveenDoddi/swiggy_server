@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
       res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-const mongoURI = "mongodb+srv://naveendoddi:zQTrjUrwyKXeIEZ2@swiggy.jbdpwef.mongodb.net/swiggy?retryWrites=true&w=majority&appName=swiggy";
+const mongoURI = process.env.MONGODB_URI;
 mongoose
       .connect(mongoURI, {
             useNewUrlParser: true,
