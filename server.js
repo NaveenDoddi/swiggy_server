@@ -137,6 +137,39 @@ app.get("/getAllItems", async (req, res) => {
       }
 });
 
+
+// Apply category filter if provided
+app.get("/filterItems", async (req, res) => {
+      try {
+            const { category, minPrice, maxPrice } = req.query;
+
+            // Create a filter object
+            let filter = {};
+
+            if (category) {
+                  filter.category = category;
+            }
+
+            if (minPrice && maxPrice) {
+                  filter.price = { $gte: parseInt(minPrice), $lte: parseInt(maxPrice) };
+            } else if (minPrice) {
+                  filter.price = { $gte: parseInt(minPrice) };
+            } else if (maxPrice) {
+                  filter.price = { $lte: parseInt(maxPrice) };
+            }
+
+            // Fetch filtered data from the database
+            const filteredData = await items.find(filter);
+
+            return res.status(200).json(filteredData);
+      } catch (err) {
+            console.log(err);
+            return res.status(500).json({ message: "Internal Server Error" });
+      }
+
+});
+
+
 app.get("/customers/:mobile", async (req, res) => {
       try {
             const mobile = req.params.mobile;
