@@ -11,13 +11,13 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^7.2.2",
-    "body-parser": "^1.20.2",
-    "whatwg-url": "^11.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "whatwg-url": "^11.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
