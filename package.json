@@ -17,6 +17,7 @@
     "express": "^4.18.2",
     "mongoose": "^7.2.2",
     "path": "^0.12.7",
+    "webidl2js": "^18.0.0",
     "whatwg-url": "^11.0.0"
   },
   "devDependencies": {
