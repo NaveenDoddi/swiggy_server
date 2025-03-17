@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-require('dotenv').config();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
@@ -15,8 +14,8 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
-const mongoURI = process.env.MONGODB_URI;
-// const mongoURI = "mongodb+srv://naveendoddi:zQTrjUrwyKXeIEZ2@swiggy.jbdpwef.mongodb.net/swiggy?retryWrites=true&w=majority&appName=swiggy"
+// const mongoURI = process.env.MONGODB_URI;
+const mongoURI = "mongodb+srv://naveendoddi:zQTrjUrwyKXeIEZ2@swiggy.jbdpwef.mongodb.net/swiggy?retryWrites=true&w=majority&appName=swiggy"
 mongoose
       .connect(mongoURI, {
             useNewUrlParser: true,
@@ -129,14 +128,14 @@ app.get("/getCartItems/:mobile", async (req, res) => {
       }
 });
 
-// app.get("/getAllItems", async (req, res) => {
-//       try {
-//             const allData = await items.find();
-//             return res.status(200).json(allData);
-//       } catch (err) {
-//             console.log(err);
-//       }
-// });
+app.get("/getAllItems", async (req, res) => {
+      try {
+            const allData = await items.find();
+            return res.status(200).json(allData);
+      } catch (err) {
+            console.log(err);
+      }
+});
 
 // Apply category filter if provided
 app.get("/filterItems", async (req, res) => {
