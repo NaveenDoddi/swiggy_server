@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
@@ -245,5 +244,7 @@ app.put("/updateItem/:id", async (req, res) => {
 app.get("/", (req, res) => {
       res.send("Hello from Vercel!");
 });
+
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 module.exports = app;
