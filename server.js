@@ -128,14 +128,14 @@ app.get("/getCartItems/:mobile", async (req, res) => {
       }
 });
 
-app.get("/getAllItems", async (req, res) => {
-      try {
-            const allData = await items.find();
-            return res.status(200).json(allData);
-      } catch (err) {
-            console.log(err);
-      }
-});
+// app.get("/getAllItems", async (req, res) => {
+//       try {
+//             const allData = await items.find();
+//             return res.status(200).json(allData);
+//       } catch (err) {
+//             console.log(err);
+//       }
+// });
 
 // Apply category filter if provided
 app.get("/filterItems", async (req, res) => {
