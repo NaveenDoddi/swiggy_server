@@ -2,10 +2,9 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
-const path = require("path");
 const bodyParser = require("body-parser");
 
-const items = require("./src/modelItem");
+const items = require('./src/modelItem')
 const restaurants = require("./src/modelRestraurant");
 const customers = require("./src/modelCustomer");
 const cartItems = require("./src/modelCartItem");
@@ -15,13 +14,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
-
-app.use(express.static(path.join(__dirname, "public")));
-
-// Serve index.html for the root URL
-app.get("/", (req, res) => {
-      res.sendFile(path.join(__dirname, "public", "index.html"));
-});
 
 const mongoURI = process.env.MONGODB_URI;
 mongoose
