@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 const customer = mongoose.Schema({
     username: { type: String, required: true, unique: true},
     email: {type: String, required: true},

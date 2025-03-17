@@ -15,7 +15,8 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
-const mongoURI = process.env.MONGODB_URI;
+// const mongoURI = process.env.MONGODB_URI;
+const mongoURI = "mongodb+srv://naveendoddi:zQTrjUrwyKXeIEZ2@swiggy.jbdpwef.mongodb.net/swiggy?retryWrites=true&w=majority&appName=swiggy"
 mongoose
       .connect(mongoURI, {
             useNewUrlParser: true,
