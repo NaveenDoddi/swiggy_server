@@ -163,33 +163,34 @@ app.get("/getAllItems", async (req, res) => {
 // Apply category filter if provided
 app.get("/filterItems", async (req, res) => {
       try {
-            const { category, minPrice, maxPrice } = req.query;
+            const { category } = req.query;
+            const minPrice = req.query.minPrice !== undefined ? parseInt(req.query.minPrice) : null;
+            const maxPrice = req.query.maxPrice !== undefined ? parseInt(req.query.maxPrice) : null;
 
-            // Create a filter object
             let filter = {};
 
             if (category) {
                   filter.category = category;
             }
 
-            if (minPrice && maxPrice) {
-                  filter.price = { $gte: parseInt(minPrice), $lte: parseInt(maxPrice) };
-            } else if (minPrice) {
-                  filter.price = { $gte: parseInt(minPrice) };
-            } else if (maxPrice) {
-                  filter.price = { $lte: parseInt(maxPrice) };
+            if (minPrice !== null && !isNaN(minPrice)) {
+                  filter.price = { ...filter.price, $gte: minPrice };
             }
 
-            // Fetch filtered data from the database
-            const filteredData = await items.find(filter);
+            if (maxPrice !== null && !isNaN(maxPrice)) {
+                  filter.price = { ...filter.price, $lte: maxPrice };
+            }
 
+            console.log("Filter applied:", filter);
+
+            const filteredData = await items.find(filter);
             return res.status(200).json(filteredData);
       } catch (err) {
-            console.log(err);
+            console.error("Error:", err);
             return res.status(500).json({ message: "Internal Server Error" });
       }
-
 });
+
 
 
 app.get("/customers/:mobile", async (req, res) => {
