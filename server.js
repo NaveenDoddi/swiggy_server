@@ -76,21 +76,43 @@ app.post("/postItem", async (req, res) => {
       }
 });
 
-app.post("/postCart", async (req, res) => {
-      const { restaurant, mobile, dishName, price, image, discription } = req.body;
+app.post("/addToCart", async (req, res) => {
       try {
-            const newData = new cartItems({
-                  restaurant,
-                  mobile,
-                  dishName,
-                  price,
-                  image,
-                  discription,
+            const { itemId, mobile } = req.body;
+
+            // Find the item
+            const item = await items.findById(itemId);
+
+            if (!item) {
+                  return res.status(404).json({ error: "Item not found" });
+            }
+
+            // Check if item is available
+            if (item.availability <= 0) {
+                  return res.status(400).json({ error: "Item is out of stock" });
+            }
+
+            // Decrease item availability count
+            await items.updateOne({ _id: itemId }, { $inc: { availability: -1 } });
+
+            // Add item to cart
+            const newCartItem = new cartItems({
+                  restaurant: item.restaurant,
+                  mobile: mobile,
+                  dishName: item.dishName,
+                  price: item.price,
+                  image: item.pic,
+                  description: item.description
             });
-            await newData.save();
-            res.status(200).json({ message: "Item added to cart successfully" });
-      } catch (err) {
-            res.status(400);
+
+            await newCartItem.save();
+
+            res.status(200).json({
+                  message: "Item added to cart successfully and availability updated",
+            });
+      } catch (error) {
+            console.error("Error adding item to cart:", error);
+            res.status(500).json({ error: "Internal server error" });
       }
 });
 

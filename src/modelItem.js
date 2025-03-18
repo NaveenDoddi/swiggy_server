@@ -8,7 +8,8 @@ const item = mongoose.Schema({
     price: {type: Number, required: true},
     discription: {type: String},
     pic: {type: String},
-    category: {type: String}
+    category: {type: String},
+    count:{type: Number}
 
 })
 
