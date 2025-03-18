@@ -88,12 +88,12 @@ app.post("/addToCart", async (req, res) => {
             }
 
             // Check if item is available
-            if (item.availability <= 0) {
+            if (item.count <= 0) {
                   return res.status(400).json({ error: "Item is out of stock" });
             }
 
             // Decrease item availability count
-            await items.updateOne({ _id: itemId }, { $inc: { availability: -1 } });
+            await items.updateOne({ _id: itemId }, { $inc: { count: -1 } });
 
             // Add item to cart
             const newCartItem = new cartItems({
