@@ -152,21 +152,21 @@ app.get("/getCartItems/:mobile", async (req, res) => {
 
 app.get("/getAllItems", async (req, res) => {
       try {
-          let { page = 1, limit = 10 } = req.query;
-          page = parseInt(page);
-          limit = parseInt(limit);
-  
-          const allData = await items.find()
-              .skip((page - 1) * limit)
-              .limit(limit);  
-  
-          res.status(200).json(allData);
+            let { page = 1, limit = 10 } = req.query;
+            page = parseInt(page);
+            limit = parseInt(limit);
+
+            const allData = await items.find()
+                  .skip((page - 1) * limit)
+                  .limit(limit);
+
+            res.status(200).json(allData);
       } catch (err) {
-          console.log(err);
-          res.status(500).json({ error: "Internal Server Error" });
+            console.log(err);
+            res.status(500).json({ error: "Internal Server Error" });
       }
-  });
-  
+});
+
 
 // app.get("/getAllItems", async (req, res) => {
 //       try {
@@ -181,14 +181,14 @@ app.get("/getAllItems", async (req, res) => {
 // Apply category filter if provided
 app.get("/filterItems", async (req, res) => {
       try {
-            const { category, minPrice, maxPrice, dishName } = req.query;
+            const { category, minPrice, maxPrice, dishName, sortBy = "count", order = "desc" } = req.query;
             let filter = {};
 
             if (category) {
                   filter.category = category;
             }
 
-            if(dishName){
+            if (dishName) {
                   filter.dishName = { $regex: dishName, $options: "i" }
             }
 
@@ -200,9 +200,17 @@ app.get("/filterItems", async (req, res) => {
                   filter.price = { $lte: parseInt(maxPrice) };
             }
 
+            let { page = 1, limit = 10 } = req.query;
+            page = parseInt(page);
+            limit = parseInt(limit);
+
             console.log("Applied filter:", filter);
 
-            const filteredData = await items.find(filter);
+            const filteredData = await items.find(filter)
+                  .sort({ [sortBy]: sortOrder })
+                  .skip((page - 1) * limit)
+                  .limit(limit);
+
             return res.status(200).json(filteredData);
       } catch (err) {
             console.error("Error:", err);
