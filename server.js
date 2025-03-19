@@ -207,7 +207,7 @@ app.get("/filterItems", async (req, res) => {
             console.log("Applied filter:", filter);
 
             const filteredData = await items.find(filter)
-                  .sort({ [sortBy]: sortOrder })
+                  .sort({ [sortBy]: order })
                   .skip((page - 1) * limit)
                   .limit(limit);
 
