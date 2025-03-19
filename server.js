@@ -152,12 +152,30 @@ app.get("/getCartItems/:mobile", async (req, res) => {
 
 app.get("/getAllItems", async (req, res) => {
       try {
-            const allData = await items.find();
-            return res.status(200).json(allData);
+          let { page = 1, limit = 10 } = req.query;
+          page = parseInt(page);
+          limit = parseInt(limit);
+  
+          const allData = await items.find()
+              .skip((page - 1) * limit)
+              .limit(limit);  
+  
+          res.status(200).json(allData);
       } catch (err) {
-            console.log(err);
+          console.log(err);
+          res.status(500).json({ error: "Internal Server Error" });
       }
-});
+  });
+  
+
+// app.get("/getAllItems", async (req, res) => {
+//       try {
+//             const allData = await items.find();
+//             return res.status(200).json(allData);
+//       } catch (err) {
+//             console.log(err);
+//       }
+// });
 
 
 // Apply category filter if provided
