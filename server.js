@@ -163,11 +163,15 @@ app.get("/getAllItems", async (req, res) => {
 // Apply category filter if provided
 app.get("/filterItems", async (req, res) => {
       try {
-            const { category, minPrice, maxPrice } = req.query;
+            const { category, minPrice, maxPrice, dishName } = req.query;
             let filter = {};
 
             if (category) {
                   filter.category = category;
+            }
+
+            if(dishName){
+                  filter.dishName = { $regex: dishName, $options: "i" }
             }
 
             if (minPrice && maxPrice) {
