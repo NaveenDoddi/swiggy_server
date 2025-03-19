@@ -167,7 +167,7 @@ app.get("/filterItems", async (req, res) => {
             let filter = {};
 
             if (category) {
-                  filter.category = { $regex: new RegExp("^" + category + "$", "i") };
+                  filter.category = category;
             }
 
             if (minPrice && maxPrice) {
@@ -234,18 +234,22 @@ app.get("/items/:email", async (req, res) => {
 
 app.get("/searchItems/:dishName", async (req, res) => {
       try {
-            const dishName = { $regex: new RegExp("^" + req.params.dishName + "$", "i") }
+            const dishName = req.params.dishName;
 
-            const user = await items.find({ dishName });
+            const user = await items.find({
+                  dishName: { $regex: dishName, $options: "i" }
+            });
 
-            if (!user) {
-                  return res.status(404).json({ error: "items not found" });
+            if (!user || user.length === 0) {
+                  return res.status(404).json({ error: "Items not found" });
             }
+
             res.json(user);
       } catch (err) {
-            return res.status(400);
+            return res.status(500).json({ error: "Server error" });
       }
 });
+
 
 app.delete("/delItems/:id", async (req, res) => {
       try {
