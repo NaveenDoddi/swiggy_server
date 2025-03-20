@@ -152,11 +152,12 @@ app.get("/getCartItems/:mobile", async (req, res) => {
 
 app.get("/getAllItems", async (req, res) => {
       try {
-            let { page = 1, limit = 10 } = req.query;
+            let { page = 1, limit = 10, sortBy = "count", order = "desc" } = req.query;
             page = parseInt(page);
             limit = parseInt(limit);
 
             const allData = await items.find()
+                  .sort({ [sortBy]: order })
                   .skip((page - 1) * limit)
                   .limit(limit);
 
@@ -217,7 +218,6 @@ app.get("/filterItems", async (req, res) => {
             return res.status(500).json({ message: "Internal Server Error" });
       }
 });
-
 
 
 app.get("/customers/:mobile", async (req, res) => {
